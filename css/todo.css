@@ -1,0 +1,171 @@
+body{
+    background-color: #F5F5F5;
+}
+div,ul,li{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    width:628px;
+    margin:83px auto;
+} 
+h1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 100px;
+    font-weight: 100;
+    line-height: 20px;
+    text-align: center;
+    word-spacing: 0;
+    margin-bottom: 10px;
+    color: #EAD7D7;
+}
+.title>input{
+    height:55px;
+    width: 550px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: #000;
+    padding: 16px 16px 10px 60px;
+    border:1px solid #E6E6E6;
+    box-shadow: rgba(0,0,0,0.03) 0px -2px 1px 0px inset;
+}
+.title>.boult>p{
+    font-size: 22px;
+    color: #e6e6e6;
+    padding: 10px 27px 10px 27px;
+}
+.boult{
+    width: 8px;
+    height: 34px;
+    font-size: 0;
+    position: relative;
+    top: 57px;
+    left: 56px;
+    background-color: #fff;
+    border: none;
+    transform: rotate(90deg);
+    visibility: hidden;
+}
+input::-webkit-input-placeholder {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 36px;
+    color: #F5F5F5;
+}
+.context{
+    width: 590px;
+    border:1px solid #E6E6E6;
+    padding: 0px 16px 0px 20px;
+    background-color: #fff;
+    box-shadow: rgba(0,0,0,0.03) 0px -2px 1px 0px inset;
+}
+.context>ul{
+    list-style: none;
+}
+.context>ul>li{
+    height:55px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: #000;
+    border-bottom: 1px solid #E6E6E6;
+}
+.liclass{
+    height: 56px;
+}
+.delete{
+    display: none;
+    position: relative;
+    top: 10px;
+    width: 40px;
+    float: right;
+    height: 40px;
+    margin: auto 0;
+    font-size: 30px;
+    color: #cc9a9a;
+    background-color: #fff;
+    margin-bottom: 11px;
+    transition: color 0.2s ease-out;
+    border: none;
+}
+.liclass:hover .delete{    
+    display: block;
+}  
+input[type="checkbox"]{
+    display: none;
+}
+label{
+    display: inline-block;
+    position: relative;
+    left: 40px;
+    top: 12px;
+}
+textarea{
+    display: none;
+    margin-left: 39px;
+    width: 550px;
+    height: 39px;
+    padding-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: #000;
+}
+.spot{
+    width: 52px;
+    height: 51px;
+    background: url(../images/radio.png) no-repeat;
+    position: absolute;
+    top: -12px;
+    left: -54px;
+}
+input[type="checkbox"]:checked + .spot{
+    background:url("../images/checked.png") no-repeat; 
+}
+.footer{
+    visibility: hidden;
+    color: #777;
+    background-color: #fff;
+    padding: 10px 15px;
+    width: 596px;
+    height: 20px;
+    text-align: center;
+    border:1px solid #E6E6E6;
+    box-shadow: rgba(0,0,0,0.03) 0px -2px 1px 0px inset;
+}
+.todo-count {
+    float: left;
+    text-align: left;
+}
+.filters {
+    list-style: none;
+    position: relative;
+    left: -16px;
+    width: 628px;
+}
+.filters li {
+    display: inline;
+}
+.filters li button {
+    color: inherit;
+    margin: 3px;
+    padding: 3px 7px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background-color: #fff;
+}
+.filters li:last-child{
+    visibility: hidden;
+    float:right;
+}
+.side{
+    visibility: hidden;
+    width: 621px;
+    margin-left: 3px;
+    height: 4px;
+    border: 1px solid #E6E6E6;
+    background-color: #fff;
+    box-shadow: rgba(0,0,0,0.03) 0px -2px 1px 0px inset;
+}
+.side:last-child{
+    width: 616px;
+    margin-left: 5px;
+}
