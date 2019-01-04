@@ -2,7 +2,7 @@ let i=0;
 let j=0;
 let flag=false;
 let arr=[];
-
+let sign="";
 function init(){
     if(localStorage.getItem("temp")!==null&&localStorage.getItem("temp").length>0){
         let item=localStorage.getItem("temp").split(",");
@@ -62,6 +62,9 @@ window.onkeydown=function(){
             </div>
         `;
         context.appendChild(li);
+        if(sign.toUpperCase()==="completed".toUpperCase()){
+          li.style.display="none";
+        }
         arr.push(text)
         document.getElementById("strong").innerText=i;
         document.getElementById('eventName').value = "";
@@ -121,16 +124,26 @@ function changeAll(){
 function changeItem(item){
     document.getElementById(item).style.display="none";
     document.getElementById("t"+item).style.display="block";
+    document.getElementById("t"+item).focus();
 }
 function hideText(item){
     document.getElementById("t"+item).style.display="none";
     let text=document.getElementById("t"+item).value;
     let c=document.getElementById(item).innerText.trim();
-    document.getElementById(item).parentNode.innerHTML=`
-        <label id=`+item+`><input onchange="changeEvent(`+item+`)" id=i`+item+` type="checkbox"><i class="spot"></i>`+text+`</label>
+    let b=document.getElementById("i"+item);
+    if(b.checked){
+        document.getElementById(item).parentNode.innerHTML=`
+        <label id=`+item+` style="text-decoration: line-through;color: rgb(217, 217, 217);"><input onchange="changeEvent(`+item+`)" id=i`+item+` type="checkbox" checked="checked"><i class="spot"></i>`+text+`</label>
             <textarea onblur="hideText(`+item+`)" style="display: none;" id=t`+item+`>`+text+`</textarea>
         <button class="delete" onclick="deleteItem(`+item+`)">x</button>
         `
+    }else{
+        document.getElementById(item).parentNode.innerHTML=`
+            <label id=`+item+`><input onchange="changeEvent(`+item+`)" id=i`+item+` type="checkbox"><i class="spot"></i>`+text+`</label>
+                <textarea onblur="hideText(`+item+`)" style="display: none;" id=t`+item+`>`+text+`</textarea>
+            <button class="delete" onclick="deleteItem(`+item+`)">x</button>
+        `
+    }
     arr.splice(arr.indexOf(c),1,text);
     localStorage.setItem("temp",arr);
 }
@@ -197,6 +210,7 @@ function deleteItem(item){
     }
 }
 function getAll(){
+    sign=window.event.target.innerText;
     for(let k=0;k<=j;k++){
         let a=document.getElementById(k);
         if(a!=null){
@@ -206,6 +220,7 @@ function getAll(){
     }
 }
 function getActive(){
+    sign=window.event.target.innerText;
     for(let k=0;k<=j;k++){
         let a=document.getElementById(k);
         let b=document.getElementById("i"+k);
@@ -219,6 +234,7 @@ function getActive(){
     }
 }
 function getCompleted(){
+    sign=window.event.target.innerText;
     for(let k=0;k<=j;k++){
         let a=document.getElementById(k);
         let b=document.getElementById("i"+k);
@@ -251,6 +267,8 @@ function clearCompleted(){
         document.getElementsByClassName("side")[1].style.visibility="hidden";
         document.getElementById("clearAll").style.visibility="hidden";
         document.getElementsByClassName("boult")[0].style.visibility="hidden";
+        document.getElementById("boult").style.color="#e6e6e6";
+        i=0;j=0;flag=false;
     }
     
 }

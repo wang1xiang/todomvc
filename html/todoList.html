@@ -12,16 +12,15 @@
     <div class="container">
         <h1>todos</h1>
         <div class="title">
-            <label class="boult"><p id="boult">❯</p></label>   
             <input type="text" id="eventName" placeholder="What needs to be down?"></input>
         </div>
         <div class="context">
-           
+            <label class="boult"><p id="boult">❯</p></label>  
             <ul id="context"></ul>
         </div>
         <div class="footer">
             <span class="todo-count"><strong id="strong">0</strong> items left</span>
-            <ul class="filters" id="ull">
+            <ul class="filters">
                 <li>
                     <button id="all">All</button>
                 </li>
@@ -42,4 +41,19 @@
     <script src="../js/model.js"></script>
     <script src="../js/control.js"></script>
 </body>
+    <!-- <script src="../js/template-web.js"></script>
+    <script type="text/html" id="title">
+        <h1>{{name}}</h1>
+        <div class="title">
+            <input type="text" id="eventName" placeholder="What needs to be down?"></input>
+        </div>
+    </script>
+    
+    <script type="text/javascript">
+         var data = {
+            name: "todos",
+        };
+        var html=template("title",data);
+        document.getElementById("container").innerHTML=html;
+    </script> -->
 </html>
