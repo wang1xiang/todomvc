@@ -25,7 +25,7 @@ function init() {
                 li.innerHTML = `
                 <div class="liclass" id=d`+ j + `>
                     <label id=l`+ j + ` style="text-decoration: line-through;color: rgb(217, 217, 217);"><input  id=i` + j + ` type="checkbox" checked="checked"><i id="` + j + `" class="spot"></i>` + item[j].substring(4, item[j].length) + `</label>
-                    <textarea onblur="hideText(`+ j + `)"  id=t` + j + `>` + item[j].substring(4, item[j].length) + `</textarea>
+                    <textarea onblur="hideText(1,`+ j + `)"  id=t` + j + `>` + item[j].substring(4, item[j].length) + `</textarea>
                     <button id=`+ j + ` class="delete" >x</button>
                 </div>
                 `;
@@ -33,7 +33,7 @@ function init() {
                 li.innerHTML = `
                 <div class="liclass" id=d`+ j + `>
                     <label id=l`+ j + ` ><input  id=i` + j + ` type="checkbox"><i id="` + j + `" class="spot"></i>` + item[j] + `</label>
-                    <textarea onblur="hideText(`+ j + `)" id=t` + j + `>` + item[j] + `</textarea>
+                    <textarea onblur="hideText(1,`+ j + `)" id=t` + j + `>` + item[j] + `</textarea>
                     <button id=`+ j + ` class="delete" >x</button>
                 </div>
                 `;
@@ -44,6 +44,7 @@ function init() {
                 let a = document.getElementById(j);
                 a.style.color = "#d9d9d9";
                 a.style.textDecoration = "line-through";
+                a.style.background='url("../images/checked.png") no-repeat';
                 document.getElementById("clearAll").style.visibility = "visible";
             }
         }
@@ -68,7 +69,12 @@ function addItem() {
     if (13 == event.keyCode && text.trim() === "") {
         for (let k = 0; k <= j; k++) {
             if (document.getElementsByTagName("textarea")[k])
-                document.getElementsByTagName("textarea")[k].blur();
+                hideText(13,k);
+        }
+    }else if (27 == event.keyCode && text.trim() === "") {
+        for (let k = 0; k <= j; k++) {
+            if (document.getElementsByTagName("textarea")[k])
+                hideText(27,k);
         }
     }
     if (13 == event.keyCode && text.trim() !== "") {
@@ -78,7 +84,7 @@ function addItem() {
         li.innerHTML = `
             <div class="liclass" id=d`+ j + `>
                 <label id=l`+ j + `><input  id=i` + j + ` type="checkbox"><i id="` + j + `" class="spot"></i>` + text + `</label>
-                <textarea onblur="hideText(`+ j + `)"  id=t` + j + `>` + text + `</textarea>
+                <textarea onblur="hideText(1,`+ j + `)"  id=t` + j + `>` + text + `</textarea>
                 <button id=`+ j + ` class="delete" >x</button>
             </div>
         `;
@@ -155,41 +161,50 @@ function changeItem() {
         text.setSelectionRange(len,len);
         text.focus();
     }
+    
 };
 //修改完成 隐藏输入框
-function hideText(item) {
-    document.getElementById("t" + item).style.display = "none";
-    let text = document.getElementById("t" + item).value;
-    let c = document.getElementById("l"+item).innerText.trim();
-    let b = document.getElementById("i" + item);
-    if (b.checked) {
-        if(text.trim()==""){
-            arr.splice(arr.indexOf("true"+c), 1);
-            document.getElementById("d"+item).parentNode.parentNode.removeChild(document.getElementById("d"+item).parentNode);
+function hideText(number,item) {
+    if(27 == number){
+        for(let k=0;k<j;k++){
+            let text=document.getElementById("l" + k).innerText.trim();
+            document.getElementById("l"+k).style.display = "block";
+            document.getElementById("t" + k).style.display = "none";
+            document.getElementById("t"+k).value=text;
         }
-        else{
-            document.getElementById("l"+item).parentNode.innerHTML = `
-            <label id=l`+ item + ` style="text-decoration: line-through;color: rgb(217, 217, 217);"><input id=i` + item + ` type="checkbox" checked="checked"><i id="` + j + `" class="spot"></i>` + text + `</label>
-                <textarea onblur="hideText(`+ item + `)"  id=t` + item + `>` + text + `</textarea>
-            <button id=`+ j + ` class="delete">x</button>
-            `
-            arr.splice(arr.indexOf("true"+c), 1, "true"+text); 
+    }else{
+        document.getElementById("t" + item).style.display = "none";
+        let text = document.getElementById("t" + item).value;
+        let c = document.getElementById("l"+item).innerText.trim();
+        let b = document.getElementById("i" + item);
+        if (b.checked) {
+            if(text.trim()==""){
+                arr.splice(arr.indexOf("true"+c), 1);
+                document.getElementById("d"+item).parentNode.parentNode.removeChild(document.getElementById("d"+item).parentNode);
+            }
+            else{
+                document.getElementById("l"+item).parentNode.innerHTML = `
+                <label id=l`+ item + ` style="text-decoration: line-through;color: rgb(217, 217, 217);"><input id=i` + item + ` type="checkbox" checked="checked"><i style='background:url("../images/checked.png") no-repeat' id="` + j + `" class="spot"></i>` + text + `</label>
+                    <textarea onblur="hideText(1,`+ item + `)"  id=t` + item + `>` + text + `</textarea>
+                <button id=`+ j + ` class="delete">x</button>
+                `
+                arr.splice(arr.indexOf("true"+c), 1, "true"+text); 
+            }
+        } else {
+            if(text.trim()==""){
+                arr.splice(arr.indexOf(c), 1);
+                document.getElementById("d"+item).parentNode.parentNode.removeChild(document.getElementById("d"+item).parentNode);
+            }else{
+                document.getElementById("l"+item).parentNode.innerHTML = `
+                <label id=l`+ item + `><input id=i` + item + ` type="checkbox"><i style='background:url("../images/radio.png") no-repeat' id="` + j + `" class="spot"></i>` + text + `</label>
+                    <textarea onblur="hideText(1,`+ item + `)"  id=t` + item + `>` + text + `</textarea>
+                <button id=`+ j + ` class="delete"">x</button>
+                `
+                arr.splice(arr.indexOf(c), 1, text);
+            }
         }
-    } else {
-        if(text.trim()==""){
-            arr.splice(arr.indexOf(c), 1);
-            document.getElementById("d"+item).parentNode.parentNode.removeChild(document.getElementById("d"+item).parentNode);
-        }else{
-            document.getElementById("l"+item).parentNode.innerHTML = `
-            <label id=l`+ item + `><input id=i` + item + ` type="checkbox"><i id="` + j + `" class="spot"></i>` + text + `</label>
-                <textarea onblur="hideText(`+ item + `)"  id=t` + item + `>` + text + `</textarea>
-            <button id=`+ j + ` class="delete"">x</button>
-            `
-            arr.splice(arr.indexOf(c), 1, text);
-        }
+        localStorage.setItem("temp", arr);
     }
-   
-    localStorage.setItem("temp", arr);
 };
 //修改某一行的状态
 function changeEvent() {
@@ -203,17 +218,20 @@ function changeEvent() {
             i++;
             document.getElementById("strong").innerText = i;
             let c = document.getElementById("l"+item).innerText.trim();
+            document.getElementById(item).style.background='url("../images/radio.png") no-repeat'; 
             arr.splice(arr.indexOf("true" + c), 1, c);
             localStorage.setItem("temp", arr);
         } else {
             a.style.color = "#d9d9d9";
             a.style.textDecoration = "line-through";
+            document.getElementById(item).style.background='url("../images/checked.png") no-repeat'; 
             i--;
             document.getElementById("clearAll").style.visibility = "visible";
             document.getElementById("strong").innerText = i;
             let c = document.getElementById("l"+item).innerText.trim();
             arr.splice(arr.indexOf(c), 1, "true" + c);
             localStorage.setItem("temp", arr);
+           
         }
         if(i>0){
             document.getElementById("boult").style.color = "#e6e6e6";
@@ -223,6 +241,13 @@ function changeEvent() {
         let size = document.getElementsByClassName('liclass').length;
         if(i==size){
             document.getElementById("clearAll").style.visibility = "hidden";
+        }
+    }else if (event.target.tagName.toLowerCase() === "label"){
+        let item = event.target.id.substring(1,2);
+        if(document.getElementById("i" + item).checked){
+            document.getElementById("i" + item).checked=false;
+        }else{
+            document.getElementById("i" + item).checked=true;
         }
     }
 };
