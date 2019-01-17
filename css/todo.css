@@ -70,9 +70,9 @@ input{outline:none}
     color: #000;
     border-bottom: 1px solid #E6E6E6;
 }
-/* .liclass{
-    height: 56px;
-} */
+.liclass{
+    position: absolute;
+}
 .delete{
     display: none;
     position: relative;
@@ -125,13 +125,9 @@ textarea{
     height: 51px;
     background: url(../images/radio.png) no-repeat;
     position: absolute;
-    top: -12px;
-    left: -54px;
+    top: -11px;
+    left: -52px;
 }
-input[type="checkbox"]:checked + .spot{
-    background:url("../images/checked.png") no-repeat; 
-}
-
 .footer{
     /* visibility: hidden; */
     color: #777;
