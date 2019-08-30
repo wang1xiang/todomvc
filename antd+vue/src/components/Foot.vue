@@ -1,12 +1,13 @@
 <template>
-  <div class="route-item">
+  <div v-show="allItem.length>0" class="route-item">
     <p>共有{{size}}条数据</p>
     <router-link v-for="item in routes" :key="item.link" :to="item.link">{{item.name}}</router-link>
+    <a @click="deleteCom">清除已完成</a>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'foot',
   data () {
@@ -33,6 +34,12 @@ export default {
     }),
     size () {
       return this.$route.name === 'all' ? this.allItem.length : (this.$route.name === 'complete' ? this.completeItem.length : this.unCompleteItem.length)
+    }
+  },
+  methods: {
+    ...mapMutations(['deleteComplete']),
+    deleteCom () {
+      this.deleteComplete()
     }
   }
 }

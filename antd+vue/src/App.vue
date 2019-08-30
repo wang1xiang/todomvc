@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <keep-alive>
-      <router-view include="app, complete, uncomplete"></router-view>
-    </keep-alive>
+    <router-view></router-view>
   </div>
 </template>
 
+<script>
+</script>
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

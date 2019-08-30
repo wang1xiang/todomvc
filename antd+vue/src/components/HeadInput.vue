@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import uuidv1 from 'uuid'
 import{ mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'headInput',
@@ -29,8 +30,9 @@ export default {
   methods: {
     ...mapMutations(['setUnCompleteItem', 'setCompleteItem']),
     inputChange(event) {
-      if (event.code === 'Enter') {
+      if (event.code === 'Enter' && event.target.value !== '') {
         let param = {
+          index: uuidv1(),
           complete: false,
           showInput: true,
           value: event.target.value
@@ -44,10 +46,8 @@ export default {
     },
     completeAll () {      
       if (this.completeItem.length === 0) {
-        this.color = '#737373'
         this.setCompleteItem('all')
       } else {
-        this.color = '#E6E6E6'
         this.setUnCompleteItem('all')
       }
     }

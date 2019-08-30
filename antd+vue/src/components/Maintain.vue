@@ -1,9 +1,11 @@
 <template>
-  <a-list :dataSource="data" class="list-item" bordered>
+  <a-list v-show="allItem.length>0" :dataSource="data" class="list-item" bordered>
     <a-list-item slot="renderItem" slot-scope="item">
       <a-list-item-meta>
-        <p v-if="item.showInput" slot="title" style="white-space: nowrap;" @dblclick="changeState(item)">{{item.value}}</p>
-        <a-input @pressEsc="pressEsc(item)" @pressEnter="inputChange" @change="inputChange" auto-focus slot="title" v-else v-model="item.value">
+        <p v-if="item.showInput" slot="title" :class="item.complete ? 'complete':''" class="input" @dblclick="changeState(item)">{{item.value}}
+          <a-icon type="close-circle" class="delete-button" @click="deleteIt(item)" />
+        </p>
+        <a-input @pressEnter="inputChange" @change="inputChange" auto-focus slot="title" v-else v-model="item.value">
           <a-icon slot="suffix" type="close-circle" @click="item.value = ''" />
         </a-input>
         <a-checkbox slot="avatar" :checked="item.complete" @change="handleChange(item)"></a-checkbox>
@@ -18,16 +20,17 @@ export default {
   name: 'maintain',
   data () {
     return {
-      bakValue: '',
-      bakItem: []
+      item: [],
+      bakValue: ''
     }
   },
   mounted() {
     let _self = this
     this.$nextTick(() => {
       document.addEventListener('keyup', e => {
-        if (e.keyCode == 27 && _self.bakItem) {
-          _self.bakItem.showInput = true
+        if (e.keyCode == 27 && _self.bakValue) {
+          _self.item.showInput = true
+          _self.item.value = _self.bakValue
         }
       })
     })
@@ -43,35 +46,30 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setCompleteItem', 'setUnCompleteItem']),
+    ...mapMutations(['setCompleteItem', 'changeItem', 'setUnCompleteItem', 'deleteItem']),
     handleChange (item) {
       item.complete = !item.complete
       if (item.complete) {
-        this.setCompleteItem(item)
+        this.setCompleteItem(item.index)
       } else {
-        this.setUnCompleteItem(item)
+        this.setUnCompleteItem(item.index)
       }
     },
     changeState (item) {
-      item.showInput = false
       this.bakValue = item.value
-      this.bakItem = item
-    },
-    pressEsc (item) {
-      item.showInput = true
-      item.value = this.bakValue
+      this.item = item
+      item.showInput = false
     },
     inputChange(event) {
       if (event.code === 'Enter') {
-        this.bakItem.showInput = true
-        this.bakItem.value = event.target.value
-        if (this.$route.name === 'all' || this.$route.name === 'unComplete') {
-          this.setUnCompleteItem(this.data)
-        } else {
-          this.setCompleteItem(this.data)
-        }
+        this.item.showInput = true
+        this.item.value = event.target.value
+        this.changeItem(this.item)
       }
     },
+    deleteIt (item) {
+      this.deleteItem(item.index)
+    }
   }
 }
 
@@ -79,5 +77,20 @@ export default {
 <style scoped>
 .list-item {
   margin-top: 15px;
+}
+.input {
+  white-space: nowrap;
+}
+.input:hover > .delete-button {
+  opacity: 1;
+}
+.complete {
+  text-decoration: line-through;
+  color: #000;
+}
+.delete-button {
+  opacity: 0;
+  float: right;
+  cursor: pointer;
 }
 </style>
