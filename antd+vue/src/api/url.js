@@ -1,7 +1,7 @@
 let host = ''
 
 // 内网mock
-// host = 'http://192.168.2.30:8080/app/mock/18'
+// host = 'http://192.168.2.30:8080/app/mock/35'
 // 外网mock
 host = 'http://14.29.70.194:8080/app/mock/35'
 const tag = '/todomvc/'
